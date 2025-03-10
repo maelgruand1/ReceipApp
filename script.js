@@ -59,3 +59,22 @@ document.getElementById('delete-recipe').addEventListener('click', function () {
         document.getElementById('modal-overlay').classList.remove('show');
     }
 });
+// Fonction pour basculer le thème
+const themeToggleButton = document.getElementById('theme-toggle');
+
+// Vérifier si le thème sombre est déjà activé dans localStorage
+if (localStorage.getItem('dark-mode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+}
+
+// Ajouter un événement sur le bouton pour changer le thème
+themeToggleButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    
+    // Sauvegarder l'état du thème dans localStorage
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('dark-mode', 'enabled');
+    } else {
+        localStorage.removeItem('dark-mode');
+    }
+});
