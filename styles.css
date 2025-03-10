@@ -186,3 +186,16 @@ button#close-modal:hover {
         max-width: 400px;
     }
 }
+.translate-container {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+#language-select {
+    padding: 8px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+}

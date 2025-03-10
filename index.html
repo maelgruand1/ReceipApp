@@ -3,47 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recettes de Cuisine</title>
+    <title data-translate="Recettes de Cuisine">Recettes de Cuisine</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <nav class="navbar">
-        <h1>Recettes de Cuisine</h1>
+        <h1 data-translate="Recettes de Cuisine">Recettes de Cuisine</h1>
+        <select name="select-lang" id="language-select">
+            <option value="fr" data-translate="Français">Français</option>
+            <option value="en" data-translate="English">English</option>
+            <option value="es" data-translate="Español">Español</option>
+        </select>
     </nav>
 
     <div class="container">
-        <h2>Ajouter une Recette</h2>
+        <h2 data-translate="Ajouter une Recette">Ajouter une Recette</h2>
         <form id="recipe-form">
-            <label for="recipe-name">Nom de la recette :</label>
+            <label for="recipe-name" data-translate="Nom de la recette :">Nom de la recette :</label>
             <input type="text" id="recipe-name" required>
-
-            <label for="recipe-ingredients">Ingrédients :</label>
+        
+            <label for="recipe-ingredients" data-translate="Ingrédients :">Ingrédients :</label>
             <textarea id="recipe-ingredients" required></textarea>
-
-            <label for="recipe-steps">Étapes :</label>
+        
+            <label for="recipe-steps" data-translate="Étapes :">Étapes :</label>
             <textarea id="recipe-steps" required></textarea>
             
-            <button type="submit">Ajouter</button>
+            <button type="submit" data-translate="Ajouter">Ajouter</button>
         </form>
 
-        <h2>Liste des Recettes</h2>
+        <h2 data-translate="Liste des recettes">Liste des Recettes</h2>
         <ul id="recipe-list"></ul>
     </div>
 
     <!-- Modal pour afficher les détails d'une recette -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal">
-            <h3 id="modal-title"></h3>
-            <p><strong>Ingrédients :</strong></p>
+            <h3 id="modal-title" data-translate="Détails de la recette">Détails de la Recette</h3>
+            <p><strong data-translate="Ingrédients :">Ingrédients :</strong></p>
             <p id="modal-ingredients"></p>
-            <p><strong>Étapes :</strong></p>
+            <p><strong data-translate="Étapes :">Étapes :</strong></p>
             <p id="modal-steps"></p>
-            <button class="delete-btn" id="delete-recipe">Supprimer</button>
-            <button id="close-modal">Fermer</button>
+            <button class="delete-btn" id="delete-recipe" data-translate="Supprimer">Supprimer</button>
+            <button id="close-modal" data-translate="Fermer">Fermer</button>
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script type="module" src="dataTranslation.js"></script>
 </body>
 </html>
