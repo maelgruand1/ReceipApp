@@ -74,10 +74,14 @@ function showRecipeDetails(recipe) {
     // Afficher la modal
     document.getElementById("modal-overlay").classList.add("show");
 }
-// Fermer la modal
 function closeModal() {
     document.getElementById("modal-overlay").classList.remove("show");
 }
+// Fermer la modal
+const closeModalButton = document.getElementById("close-modal");
+closeModalButton.onclick = closeModal;
+
+
 
 // Supprimer une recette d'IndexedDB
 function deleteRecipe(recipeId) {
