@@ -1,80 +1,117 @@
-let currentRecipeItem; // Garde une référence à l'élément sélectionné
+// Ouvre la base de données IndexedDB (ou la crée si elle n'existe pas)
+let db;
 
-document.getElementById('recipe-form').addEventListener('submit', function (e) {
-    e.preventDefault();
+const request = indexedDB.open("recipesDB", 1);
 
-    const name = document.getElementById('recipe-name').value;
-    const ingredients = document.getElementById('recipe-ingredients').value;
-    const steps = document.getElementById('recipe-steps').value;
+request.onupgradeneeded = function (event) {
+    db = event.target.result;
+    const objectStore = db.createObjectStore("recipes", { keyPath: "id", autoIncrement: true });
+    objectStore.createIndex("name", "name", { unique: false });
+};
 
-    if (!name || !ingredients || !steps) {
-        alert("Veuillez remplir tous les champs !");
-        return;
-    }
+request.onsuccess = function (event) {
+    db = event.target.result;
+    displayRecipes(); // Affiche les recettes après l'ouverture réussie de la base de données
+};
 
-    // Ajouter la recette à la liste
-    const recipeList = document.getElementById('recipe-list');
-    const recipeItem = document.createElement('li');
-    recipeItem.textContent = name;
+request.onerror = function (event) {
+    console.error("Erreur de connexion à la base de données", event);
+};
 
-    // Cliquer sur la recette pour voir les détails
-    recipeItem.addEventListener('click', function () {
-        currentRecipeItem = recipeItem; // Sauvegarde l'élément cliqué
-        document.getElementById('modal-title').textContent = name;
-        document.getElementById('modal-ingredients').textContent = ingredients;
-        document.getElementById('modal-steps').textContent = steps;
-        document.getElementById('modal-overlay').classList.add('show');
-    });
+// Ajouter une recette dans IndexedDB
+function addRecipe(recipe) {
+    const transaction = db.transaction(["recipes"], "readwrite");
+    const objectStore = transaction.objectStore("recipes");
+    objectStore.add(recipe);
 
-    recipeList.appendChild(recipeItem);
+    transaction.oncomplete = function () {
+        displayRecipes();
+    };
 
-    // Réinitialiser le formulaire
-    document.getElementById('recipe-form').reset();
+    transaction.onerror = function (event) {
+        console.error("Erreur lors de l'ajout de la recette", event);
+    };
+}
 
-    // Affichage temporaire du message de confirmation
-    showConfirmationWithTimeout();
-});
+// Afficher les recettes depuis IndexedDB
+function displayRecipes() {
+    const transaction = db.transaction(["recipes"], "readonly");
+    const objectStore = transaction.objectStore("recipes");
+    const request = objectStore.getAll();
 
-// Fonction pour afficher une confirmation temporaire
-function showConfirmationWithTimeout() {
-    const confirmation = document.createElement("p");
-    confirmation.textContent = "Recette ajoutée avec succès !";
-    confirmation.classList.add("confirmation");
-    document.body.appendChild(confirmation);
+    request.onsuccess = function () {
+        const recipes = request.result;
+        const recipeList = document.getElementById("recipe-list");
+        recipeList.innerHTML = ""; // Vide la liste avant de la remplir
 
-    setTimeout(() => {
-        confirmation.remove();
-    }, 3000);
+        recipes.forEach((recipe) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = recipe.name;
+            listItem.onclick = function () {
+                showRecipeDetails(recipe);
+            };
+            recipeList.appendChild(listItem);
+        });
+    };
+
+    request.onerror = function (event) {
+        console.error("Erreur lors de la récupération des recettes", event);
+    };
+}
+
+// Afficher les détails de la recette dans une modal
+function showRecipeDetails(recipe) {
+    document.getElementById("modal-title").textContent = recipe.name;
+    document.getElementById("modal-ingredients").textContent = recipe.ingredients;
+    document.getElementById("modal-steps").textContent = recipe.steps;
+
+    // Supprimer la recette si nécessaire
+    const deleteButton = document.getElementById("delete-recipe");
+    deleteButton.onclick = function () {
+        deleteRecipe(recipe.id);
+    };
+
+    // Afficher la modal
+    document.getElementById("modal-overlay").classList.add("show");
+}
+
+// Supprimer une recette d'IndexedDB
+function deleteRecipe(recipeId) {
+    const transaction = db.transaction(["recipes"], "readwrite");
+    const objectStore = transaction.objectStore("recipes");
+    objectStore.delete(recipeId);
+
+    transaction.oncomplete = function () {
+        displayRecipes();
+        closeModal();
+    };
+
+    transaction.onerror = function (event) {
+        console.error("Erreur lors de la suppression de la recette", event);
+    };
 }
 
 // Fermer la modal
-document.getElementById('close-modal').addEventListener('click', function () {
-    document.getElementById('modal-overlay').classList.remove('show');
-});
-
-// Supprimer une recette
-document.getElementById('delete-recipe').addEventListener('click', function () {
-    if (currentRecipeItem) {
-        currentRecipeItem.remove();
-        document.getElementById('modal-overlay').classList.remove('show');
-    }
-});
-// Fonction pour basculer le thème
-const themeToggleButton = document.getElementById('theme-toggle');
-
-// Vérifier si le thème sombre est déjà activé dans localStorage
-if (localStorage.getItem('dark-mode') === 'enabled') {
-    document.body.classList.add('dark-mode');
+function closeModal() {
+    document.getElementById("modal-overlay").classList.remove("show");
 }
 
-// Ajouter un événement sur le bouton pour changer le thème
-themeToggleButton.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    
-    // Sauvegarder l'état du thème dans localStorage
-    if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('dark-mode', 'enabled');
-    } else {
-        localStorage.removeItem('dark-mode');
-    }
-});
+// Écouter l'événement de soumission du formulaire pour ajouter une recette
+document.getElementById("recipe-form").onsubmit = function (event) {
+    event.preventDefault();
+
+    const recipeName = document.getElementById("recipe-name").value;
+    const recipeIngredients = document.getElementById("recipe-ingredients").value;
+    const recipeSteps = document.getElementById("recipe-steps").value;
+
+    const newRecipe = {
+        name: recipeName,
+        ingredients: recipeIngredients,
+        steps: recipeSteps
+    };
+
+    addRecipe(newRecipe);
+
+    // Réinitialiser le formulaire après l'ajout
+    document.getElementById("recipe-form").reset();
+};
