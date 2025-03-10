@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recettes de Cuisine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h1>Recettes de Cuisine</h1>
+    </nav>
+
+    <div class="container">
+        <h2>Ajouter une Recette</h2>
+        <form id="recipe-form">
+            <label for="recipe-name">Nom de la recette :</label>
+            <input type="text" id="recipe-name" required>
+
+            <label for="recipe-ingredients">Ingrédients :</label>
+            <textarea id="recipe-ingredients" required></textarea>
+
+            <label for="recipe-steps">Étapes :</label>
+            <textarea id="recipe-steps" required></textarea>
+            
+            <button type="submit">Ajouter</button>
+        </form>
+
+        <h2>Liste des Recettes</h2>
+        <ul id="recipe-list"></ul>
+    </div>
+
+    <!-- Modal pour afficher les détails d'une recette -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title"></h3>
+            <p><strong>Ingrédients :</strong></p>
+            <p id="modal-ingredients"></p>
+            <p><strong>Étapes :</strong></p>
+            <p id="modal-steps"></p>
+            <button class="delete-btn" id="delete-recipe">Supprimer</button>
+            <button id="close-modal">Fermer</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

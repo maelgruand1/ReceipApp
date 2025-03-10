@@ -1,0 +1,188 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style amélioré pour le conteneur */
+.container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+/* Titre */
+.container h2 {
+    color: #2F855A;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Labels */
+label {
+    display: block;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    text-align: left;
+    color: #4A5568;
+}
+
+/* Champs de texte */
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #CBD5E0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus, textarea:focus {
+    border-color: #2F855A;
+    outline: none;
+    box-shadow: 0 0 5px rgba(47, 133, 90, 0.5);
+}
+
+/* Bouton amélioré */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #38a169;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+button:hover {
+    background-color: #2F855A;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Navbar */
+.navbar {
+    background-color: #38a169;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Liste des recettes */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: white;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+/* Réduction de la taille des boutons secondaires */
+button.delete-btn,
+button#close-modal {
+    width: auto; /* Ajuste la largeur en fonction du texte */
+    padding: 8px 15px; /* Réduction du padding */
+    font-size: 0.9rem; /* Légèrement plus petit */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Suppression */
+button.delete-btn {
+    background-color: #e53e3e; /* Rouge */
+}
+
+button.delete-btn:hover {
+    background-color: #c53030;
+}
+
+/* Fermeture */
+button#close-modal {
+    background-color: #4A5568; /* Gris foncé */
+    color: white;
+    margin-left: 10px;
+}
+
+button#close-modal:hover {
+    background-color: #2D3748;
+}
+
+/* Message de confirmation */
+.confirmation {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: green;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .container {
+        max-width: 600px;
+    }
+
+    .modal {
+        max-width: 400px;
+    }
+}
