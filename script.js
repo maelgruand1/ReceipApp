@@ -74,6 +74,14 @@ function showRecipeDetails(recipe) {
     // Afficher la modal
     document.getElementById("modal-overlay").classList.add("show");
 }
+function closeModal() {
+    document.getElementById("modal-overlay").classList.remove("show");
+}
+// Fermer la modal
+const closeModalButton = document.getElementById("close-modal");
+closeModalButton.onclick = closeModal;
+
+
 
 // Supprimer une recette d'IndexedDB
 function deleteRecipe(recipeId) {
@@ -91,10 +99,6 @@ function deleteRecipe(recipeId) {
     };
 }
 
-// Fermer la modal
-function closeModal() {
-    document.getElementById("modal-overlay").classList.remove("show");
-}
 
 // Écouter l'événement de soumission du formulaire pour ajouter une recette
 document.getElementById("recipe-form").onsubmit = function (event) {
